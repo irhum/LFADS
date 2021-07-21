@@ -2,7 +2,6 @@
 This is an unofficial implementation of LFADS(Latent Factor Analysis via Dynamical Systems), used to infer the underlying dynamics that generated a neural spike train, from single-trial spiking data. You can read more about the method [here](https://arxiv.org/abs/1608.06315), and its use in neuroscience [here](https://www.nature.com/articles/s41592-018-0109-9). 
 
 This implementation is fairly incomplete, and presently exists mostly for me to understand this method. If you need a fully featured implementation, please check these instead:
-### Other implementations
 * Official implementation in TensorFlow: https://github.com/tensorflow/models/tree/master/research/lfads
 * Implementation in JAX by the original author: https://github.com/google-research/computation-thru-dynamics
 
