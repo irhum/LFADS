@@ -7,13 +7,13 @@ This implementation is fairly incomplete, and presently exists mostly for me to 
 * Implementation in JAX by the original author: https://github.com/google-research/computation-thru-dynamics
 
 ## Current state:
-Currently, this is a barebones working prototype. Only some regularization techniques have been implemented, and some models are missing, 
+Currently, this is a barebones working prototype. Only some regularization techniques have been implemented, and some models are missing. It trains on all 8 TPU cores on a v2-8, but is limited by data infeed (which could be improved by a proper tf.data pipeline)
 ### What's here
 * The *autonomous* LFADS model (Fig 1 from the Nature paper), that does *not* infer any inputs i.e. the spikes are generated purely by the dynamics that are to be inferred.
     * Row-normalized weights for computing factors.
     * L2 norm regularization on the generator's weight matrix for internal state.
     * A custom initializer for the GRU's bias is included. That initializes the hidden state bias to -1 (the rest are 0 per usual) to stabilize learning. 
-        * This functionally achieves the same as in the TF implementation [here](https://github.com/tensorflow/models/blob/master/research/lfads/lfads.py#L147). The sign flip is because the TF implementation uses a forget gate GRU, whereas Haiku uses a reset gate GRU.
+        * This achieves the same as in the TF implementation [here](https://github.com/tensorflow/models/blob/master/research/lfads/lfads.py#L147). The sign flip is because the TF implementation uses a update gate GRU, whereas Haiku uses a reset gate GRU. 
     * Uses dropout on the input, and on the encoded sequence data (before conversion to mean/stddev)
 
 * Synthetic data generation tools for the Chaotic RNN used in the supplement [here](https://static-content.springer.com/esm/art%3A10.1038%2Fs41592-018-0109-9/MediaObjects/41592_2018_109_MOESM1_ESM.pdf)
