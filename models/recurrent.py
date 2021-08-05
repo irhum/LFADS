@@ -16,3 +16,13 @@ class ZeroOneInitializer(hk.initializers.Initializer):
     other_bias = jnp.zeros(2*shape[0] // 3, dtype)
 
     return jnp.concatenate([z_bias, other_bias])
+
+# minimal implementation, only works inside hk.transform
+# TODO: check if drop_mask needs to be passed into inner function when jitted
+def dynamic_unroll_recur_drop(core, input_sequence, initial_state, drop_mask):
+  def scan_f(prev_state, inputs):
+    outputs, next_state = core(inputs * drop_mask, prev_state)
+    return next_state, outputs 
+
+  final_state, output_sequence = hk.scan(scan_f, initial_state, input_sequence)
+  return output_sequence, final_state
